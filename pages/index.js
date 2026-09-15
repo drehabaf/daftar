@@ -86,7 +86,7 @@ export default function Home() {
           <Tab label="Dokumen" active={activeTab === "dokumen"} onClick={() => setActiveTab("dokumen")} />
         </div>
         {activeTab === "form" && <Borang form={form} onSubmit={addRecord} onUpdate={updateForm} />}
-        {activeTab === "statistik" && <Statistik records={filteredRecords} search={search} setSearch={setSearch} filterDate={filterDate} setFilterDate={setFilterDate} deleteRecord={deleteRecord} openDocumentFromRecord={openDocumentFromRecord} />}
+        {activeTab === "statistik" && <Statistik records={filteredRecords} allRecords={records} search={search} setSearch={setSearch} filterDate={filterDate} setFilterDate={setFilterDate} deleteRecord={deleteRecord} openDocumentFromRecord={openDocumentFromRecord} />}
         {activeTab === "timeslip" && <Timeslip records={records} />}
         {activeTab === "dokumen" && <Dokumen draft={docDraft} documents={documents} onSaveHistory={saveDocumentHistory} onDeleteDocument={deleteDocument} />}
       </div>
