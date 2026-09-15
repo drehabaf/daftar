@@ -27,7 +27,7 @@ export default function Statistik({ records, allRecords = [], search, setSearch,
       month: MONTHS[index],
       count,
       rate: total > 0 ? (count / total) * 100 : 0,
-      height: count > 0 ? Math.max((count / max) * 100, 10) : 0,
+      height: count > 0 ? Math.max((count / max) * 100, 8) : 0,
       isCurrent: index === currentMonth,
     }));
   }, [allRecords, currentYear, currentMonth]);
@@ -36,7 +36,7 @@ export default function Statistik({ records, allRecords = [], search, setSearch,
 
   return (
     <main className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-      <section className="mb-5 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+      <section className="mb-5 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <button
           type="button"
           onClick={() => setStatsOpen((open) => !open)}
@@ -44,32 +44,37 @@ export default function Statistik({ records, allRecords = [], search, setSearch,
           aria-expanded={statsOpen}
         >
           <div className="min-w-0">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600">Statistik Bulanan</p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <h2 className="truncate text-base font-bold text-slate-950">Jumlah Pesakit {currentYear}</h2>
-              <span className="shrink-0 rounded-lg bg-white px-2 py-1 text-xs font-black text-slate-700 ring-1 ring-slate-200">{totalThisYear}</span>
-            </div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-blue-600">Statistik Bulanan</p>
+            <h2 className="mt-1 truncate text-base font-extrabold text-slate-950">Jumlah Pesakit {currentYear}</h2>
+            <p className="mt-1 text-[11px] text-slate-500">12 bulan • auto ikut tahun semasa</p>
           </div>
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-xl font-black text-blue-600 ring-1 ring-slate-200 transition-transform">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-xl font-black text-blue-700 ring-1 ring-blue-200">
             {statsOpen ? "−" : "+"}
           </span>
         </button>
 
         {statsOpen ? (
-          <div className="border-t border-slate-200 bg-white p-3">
-            <div className="grid grid-cols-6 gap-1.5">
+          <div className="border-t border-slate-100 px-3 pb-4 pt-3">
+            <div className="mb-3 flex items-end justify-between border-b border-slate-100 pb-3">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-slate-400">Jumlah Tahun Ini</p>
+              <p className="text-2xl font-black leading-none text-slate-950">{totalThisYear}</p>
+            </div>
+
+            <div className="grid grid-cols-6 gap-x-2 gap-y-4">
               {monthlyStats.map((item) => (
-                <div key={item.month} className={"min-w-0 rounded-xl border px-1.5 py-2 text-center " + (item.isCurrent ? "border-blue-300 bg-blue-50" : "border-slate-200 bg-white")}>
-                  <div className="flex h-16 items-end justify-center rounded-lg bg-slate-50 px-1">
-                    <div className="w-full max-w-5 rounded-t-md bg-blue-600 transition-all" style={{ height: `${item.height}%` }} />
+                <div key={item.month} className="min-w-0 text-center">
+                  <div className="flex h-[78px] items-end justify-center">
+                    <div
+                      className={"w-3.5 rounded-t-full rounded-b-sm bg-gradient-to-t from-emerald-500 via-sky-500 to-blue-700 shadow-[0_3px_10px_rgba(14,165,233,0.18)] transition-all " + (item.isCurrent ? "w-4 shadow-[0_4px_14px_rgba(37,99,235,0.24)]" : "")}
+                      style={{ height: `${item.height}%` }}
+                    />
                   </div>
-                  <p className="mt-1.5 text-[10px] font-black text-slate-700">{item.month}</p>
-                  <p className="text-xs font-black text-slate-950">{item.count}</p>
-                  <p className="text-[9px] font-bold text-slate-500">{item.rate.toFixed(1)}%</p>
+                  <p className={"mt-1.5 text-[10px] font-extrabold " + (item.isCurrent ? "text-blue-600" : "text-slate-700")}>{item.month}</p>
+                  <p className="mt-0.5 text-[11px] font-black text-slate-950">{item.count}</p>
+                  <p className="mt-0.5 text-[9px] font-bold text-slate-400">{item.rate.toFixed(1)}%</p>
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-[10px] leading-4 text-slate-400">6 bar setiap baris untuk paparan telefon. Kadar (%) dikira daripada jumlah pesakit yang direkodkan dalam tahun {currentYear}.</p>
           </div>
         ) : null}
       </section>
