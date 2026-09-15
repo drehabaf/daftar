@@ -76,9 +76,17 @@ export function getTimeslipNo(record, records = []) {
 }
 
 export function filterPatientRecords(records, search, filterDate) {
+  const query = String(search || "").trim().toLowerCase();
+
   return records.filter((item) => {
-    const text = [item.nama, item.noKadPengenalan, item.noTelefon, item.juruterapi, item.rawatan].join(" ").toLowerCase();
-    return text.includes(String(search || "").toLowerCase()) && (filterDate ? item.tarikh === filterDate : true);
+    const text = [item.nama, item.noKadPengenalan, item.noTelefon, item.juruterapi, item.rawatan]
+      .join(" ")
+      .toLowerCase();
+
+    const matchesSearch = text.includes(query);
+    const matchesDate = query ? true : (filterDate ? item.tarikh === filterDate : true);
+
+    return matchesSearch && matchesDate;
   });
 }
 
